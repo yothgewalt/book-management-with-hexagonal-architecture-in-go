@@ -1,0 +1,11 @@
+POST http://localhost:3000/api/v1/create/member
+Content-Type: application/json
+
+{
+  "username": "eine.schlacht",
+  "firstname": "yongyuth",
+  "lastname": "chuakhuntod",
+  "password": "!first@14131413"
+}
+
+###

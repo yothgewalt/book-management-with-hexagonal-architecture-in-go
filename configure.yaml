@@ -1,0 +1,15 @@
+configuration:
+
+  # Using for configure the gin gonic.
+  application:
+    port: 3000
+
+  # Using for configure the gorm.
+  database:
+    host: "localhost"
+    user: "postgres"
+    password: "!First@14131413"
+    dbname: "book_management"
+    port: "5432"
+    ssl_mode: "disable"
+    timezone: "Asia/Bangkok"
