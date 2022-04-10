@@ -1,3 +1,15 @@
+DELETE http://localhost:3000/api/v1/member/soft/delete/3ad44873-a67f-40ca-a04d-6533471ec961
+Accept: application/json
+
+###
+GET http://localhost:3000/api/v1/members/55f95d67-e9f4-411d-b222-b982c54c3587
+Accept: application/json
+
+###
+GET http://localhost:3000/api/v1/members
+Accept: application/json
+
+###
 POST http://localhost:3000/api/v1/create/member
 Content-Type: application/json
 

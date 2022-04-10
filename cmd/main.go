@@ -22,7 +22,10 @@ func main() {
 		log.Fatalf("Failed to connect the database cause %v", err)
 	}
 
-	core.Database.AutoMigrate(&port.Member{})
+	err = core.Database.AutoMigrate(&port.Member{})
+	if err != nil {
+		log.Fatalf("Failed to auto migrate the model cause %v", err)
+	}
 
 	memberRepository := port.NewMemberRepository(core.Database)
 	memberService := service.NewMemberService(memberRepository)
@@ -32,6 +35,12 @@ func main() {
 
 	api := r.Group("/api", func(c *gin.Context) { c.Next() })
 	api.POST("/v1/create/member", memberHandler.NewMember())
+	api.GET("/v1/members", memberHandler.ReadMembers())
+	api.GET("/v1/members/:uuid", memberHandler.ReadMemberById())
+	api.DELETE("/v1/delete/member/:uuid", memberHandler.DeleteMemberById())
 
-	r.Run(":3000")
+	err = r.Run(":3000")
+	if err != nil {
+		log.Fatal(err)
+	}
 }

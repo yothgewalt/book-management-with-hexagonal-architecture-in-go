@@ -8,7 +8,7 @@ configuration:
   database:
     host: "localhost"
     user: "postgres"
-    password: "!First@14131413"
+    password: "password"
     dbname: "book_management"
     port: "5432"
     ssl_mode: "disable"

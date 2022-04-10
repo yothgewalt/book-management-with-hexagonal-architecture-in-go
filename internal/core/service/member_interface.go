@@ -14,10 +14,10 @@ type NewMemberRequester struct {
 
 type MemberResponse struct {
 	ID        uuid.UUID `json:"ID"`
-	CreatedAt time.Time
-	Username  string `json:"username"`
-	Firstname string `json:"firstname"`
-	Lastname  string `json:"lastname"`
+	CreatedAt time.Time `json:"created_at"`
+	Username  string    `json:"username"`
+	Firstname string    `json:"firstname"`
+	Lastname  string    `json:"lastname"`
 }
 
 type MemberService interface {

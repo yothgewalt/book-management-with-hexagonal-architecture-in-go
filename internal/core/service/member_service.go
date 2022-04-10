@@ -62,6 +62,7 @@ func (m memberService) NewMember(requester NewMemberRequester) (*MemberResponse,
 
 	memberResponse := MemberResponse{
 		ID:        newMember.ID,
+		CreatedAt: newMember.CreatedAt,
 		Username:  newMember.Username,
 		Firstname: newMember.Firstname,
 		Lastname:  newMember.Lastname,
@@ -80,6 +81,7 @@ func (m memberService) ReadMembers() ([]*MemberResponse, error) {
 	for _, member := range members {
 		responses = append(responses, &MemberResponse{
 			ID:        member.ID,
+			CreatedAt: member.CreatedAt,
 			Username:  member.Username,
 			Firstname: member.Firstname,
 			Lastname:  member.Lastname,
@@ -97,6 +99,7 @@ func (m memberService) ReadMemberById(uuid uuid.UUID) (*MemberResponse, error) {
 
 	response := MemberResponse{
 		ID:        member.ID,
+		CreatedAt: member.CreatedAt,
 		Username:  member.Username,
 		Firstname: member.Firstname,
 		Lastname:  member.Lastname,
@@ -106,5 +109,9 @@ func (m memberService) ReadMemberById(uuid uuid.UUID) (*MemberResponse, error) {
 }
 
 func (m memberService) DeleteMemberById(uuid uuid.UUID) error {
+	if err := m.memberRepository.DropMemberById(uuid); err != nil {
+		return errors.New("the uuid could be not found")
+	}
+
 	return nil
 }

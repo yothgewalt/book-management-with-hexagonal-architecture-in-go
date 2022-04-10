@@ -33,7 +33,7 @@ func (m memberRepository) CreateMember(member Member) (*Member, error) {
 
 func (m memberRepository) GetAllMember() ([]*Member, error) {
 	var members []*Member
-	tx := m.database.Table("members").Select("id", "username", "firstname", "lastname").Find(&members).Error
+	tx := m.database.Table("members").Select("id", "created_at", "username", "firstname", "lastname").Find(&members).Error
 	if tx != nil {
 		return nil, tx
 	}
@@ -43,7 +43,7 @@ func (m memberRepository) GetAllMember() ([]*Member, error) {
 
 func (m memberRepository) GetMemberById(uuid uuid.UUID) (*Member, error) {
 	var member *Member
-	tx := m.database.Table("members").Select("id").Where("id = ?", uuid).First(&member).Error
+	tx := m.database.Table("members").Select("id", "created_at", "username", "firstname", "lastname").Where("id = ?", uuid).First(&member).Error
 	if tx != nil {
 		return nil, tx
 	}
@@ -51,6 +51,12 @@ func (m memberRepository) GetMemberById(uuid uuid.UUID) (*Member, error) {
 	return member, nil
 }
 
-func (m memberRepository) DropMemberById() error {
+func (m memberRepository) DropMemberById(uuid uuid.UUID) error {
+	var member *Member
+	tx := m.database.Table("members").Select("id").Where("id = ?", uuid).Delete(&member).Error
+	if tx != nil {
+		return tx
+	}
+
 	return nil
 }
