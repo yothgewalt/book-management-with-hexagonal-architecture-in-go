@@ -24,7 +24,7 @@ func (m memberRepository) CreateMember(member Member) (*Member, error) {
 
 			return &member, nil
 		} else {
-			return nil, err
+			return nil, errors.New("this username could not be created because it is already in use")
 		}
 	}
 
@@ -51,6 +51,16 @@ func (m memberRepository) GetMemberById(uuid uuid.UUID) (*Member, error) {
 	return member, nil
 }
 
+func (m memberRepository) GetMemberByNameWithPassword(name string) (*Member, error) {
+	var member *Member
+	tx := m.database.Table("members").Select("id", "created_at", "username", "firstname", "lastname", "password").Where("username = ?", name).Take(&member).Error
+	if tx != nil {
+		return nil, tx
+	}
+
+	return member, nil
+}
+
 func (m memberRepository) DropMemberById(uuid uuid.UUID) error {
 	var member *Member
 	tx := m.database.Table("members").Select("id").Where("id = ?", uuid).Delete(&member).Error
@@ -59,4 +69,16 @@ func (m memberRepository) DropMemberById(uuid uuid.UUID) error {
 	}
 
 	return nil
+}
+
+func (m memberRepository) LoginMember(member Member) (*Member, error) {
+	if err := m.database.Table("member").Select("username").Where("username = ?", member.Username).Take(&member).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("this username could not be found, please register the member before login")
+		} else {
+			return nil, err
+		}
+	}
+
+	return &member, nil
 }

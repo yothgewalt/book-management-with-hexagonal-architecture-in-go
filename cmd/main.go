@@ -31,9 +31,14 @@ func main() {
 	memberService := service.NewMemberService(memberRepository)
 	memberHandler := handler.NewMemberHandler(memberService)
 
+	bookRepository := port.NewBookRepository(core.Database)
+
+	_ = bookRepository
+
 	r := gin.Default()
 
 	api := r.Group("/api", func(c *gin.Context) { c.Next() })
+	api.POST("/v1/auth/member/login", memberHandler.AuthMember())
 	api.POST("/v1/create/member", memberHandler.NewMember())
 	api.GET("/v1/members", memberHandler.ReadMembers())
 	api.GET("/v1/members/:uuid", memberHandler.ReadMemberById())

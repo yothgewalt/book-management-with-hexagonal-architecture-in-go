@@ -1,3 +1,12 @@
+POST http://localhost:3000/api/v1/auth/member/login
+Content-Type: application/json
+
+{
+  "username": "eine.schlacht",
+  "password": "!first@14131413"
+}
+
+###
 DELETE http://localhost:3000/api/v1/member/soft/delete/3ad44873-a67f-40ca-a04d-6533471ec961
 Accept: application/json
 

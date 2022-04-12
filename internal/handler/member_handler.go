@@ -15,6 +15,28 @@ func NewMemberHandler(memberService service.MemberService) memberHandler {
 	return memberHandler{memberService: memberService}
 }
 
+func (m memberHandler) AuthMember() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var member service.AuthMemberRequester
+		if err := c.ShouldBindJSON(&member); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err,
+			})
+			return
+		}
+
+		response, err := m.memberService.AuthMember(member)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err,
+			})
+			return
+		}
+
+		c.JSON(http.StatusOK, response)
+	}
+}
+
 func (m memberHandler) NewMember() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var member service.NewMemberRequester

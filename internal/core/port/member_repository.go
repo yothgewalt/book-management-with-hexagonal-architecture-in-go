@@ -16,8 +16,10 @@ type Member struct {
 }
 
 type MemberRepository interface {
+	LoginMember(member Member) (*Member, error)
 	CreateMember(member Member) (*Member, error)
 	GetAllMember() ([]*Member, error)
 	GetMemberById(uuid uuid.UUID) (*Member, error)
+	GetMemberByNameWithPassword(name string) (*Member, error)
 	DropMemberById(uuid uuid.UUID) error
 }
