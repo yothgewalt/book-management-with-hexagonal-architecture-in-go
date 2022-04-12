@@ -7,15 +7,15 @@ import (
 	"net/http"
 )
 
-type memberHandler struct {
+type MemberHandler struct {
 	memberService service.MemberService
 }
 
-func NewMemberHandler(memberService service.MemberService) memberHandler {
-	return memberHandler{memberService: memberService}
+func NewMemberHandler(memberService service.MemberService) MemberHandler {
+	return MemberHandler{memberService: memberService}
 }
 
-func (m memberHandler) AuthMember() gin.HandlerFunc {
+func (m MemberHandler) AuthMember() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var member service.AuthMemberRequester
 		if err := c.ShouldBindJSON(&member); err != nil {
@@ -37,7 +37,7 @@ func (m memberHandler) AuthMember() gin.HandlerFunc {
 	}
 }
 
-func (m memberHandler) NewMember() gin.HandlerFunc {
+func (m MemberHandler) NewMember() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var member service.NewMemberRequester
 		if err := c.ShouldBindJSON(&member); err != nil {
@@ -57,7 +57,7 @@ func (m memberHandler) NewMember() gin.HandlerFunc {
 	}
 }
 
-func (m memberHandler) ReadMembers() gin.HandlerFunc {
+func (m MemberHandler) ReadMembers() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		members, err := m.memberService.ReadMembers()
 		if err != nil {
@@ -71,7 +71,7 @@ func (m memberHandler) ReadMembers() gin.HandlerFunc {
 	}
 }
 
-func (m memberHandler) ReadMemberById() gin.HandlerFunc {
+func (m MemberHandler) ReadMemberById() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("uuid")
 
@@ -93,7 +93,7 @@ func (m memberHandler) ReadMemberById() gin.HandlerFunc {
 	}
 }
 
-func (m memberHandler) DeleteMemberById() gin.HandlerFunc {
+func (m MemberHandler) DeleteMemberById() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("uuid")
 
@@ -111,7 +111,7 @@ func (m memberHandler) DeleteMemberById() gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusOK, gin.H{
-			"message": "the member has been deleted (soft) sort by uuid.",
+			"message": "the member has been deleted sort by uuid.",
 		})
 	}
 }

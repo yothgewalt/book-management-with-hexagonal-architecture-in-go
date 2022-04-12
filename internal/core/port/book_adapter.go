@@ -48,18 +48,9 @@ func (b bookRepository) GetBookById(id uint) (*Book, error) {
 	return book, nil
 }
 
-func (b bookRepository) SoftDropBookById(id uint) error {
+func (b bookRepository) DropBookById(id uint) error {
 	var book *Book
 	if err := b.database.Table("books").Select("id").Where("id = ?", id).Delete(&book).Error; err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (b bookRepository) HardDropBookById(id uint) error {
-	var book *Book
-	if err := b.database.Table("books").Select("id").Unscoped().Where("id = ?", id).Delete(&book).Error; err != nil {
 		return err
 	}
 

@@ -11,7 +11,6 @@ type NewBookRequester struct {
 type BookResponse struct {
 	ID          uint `json:"id"`
 	CreatedAt   time.Time
-	UpdateAt    time.Time
 	Title       string `json:"title"`
 	Author      string `json:"author"`
 	Description string `json:"description"`
@@ -21,6 +20,5 @@ type BookService interface {
 	NewBook(requester NewBookRequester) (*BookResponse, error)
 	ReadBooks() ([]*BookResponse, error)
 	ReadBookById(id uint) (*BookResponse, error)
-	SoftDeleteBookById(id uint) (*BookResponse, error)
-	HardDeleteBookById(id uint) (*BookResponse, error)
+	DeleteBookById(id uint) error
 }

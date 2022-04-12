@@ -32,8 +32,8 @@ func main() {
 	memberHandler := handler.NewMemberHandler(memberService)
 
 	bookRepository := port.NewBookRepository(core.Database)
-
-	_ = bookRepository
+	bookService := service.NewBookService(bookRepository)
+	bookHandler := handler.NewBookHandler(bookService)
 
 	r := gin.Default()
 
@@ -43,6 +43,11 @@ func main() {
 	api.GET("/v1/members", memberHandler.ReadMembers())
 	api.GET("/v1/members/:uuid", memberHandler.ReadMemberById())
 	api.DELETE("/v1/delete/member/:uuid", memberHandler.DeleteMemberById())
+
+	api.POST("/v1/new/book", bookHandler.NewBook())
+	api.GET("/v1/books", bookHandler.ReadBooks())
+	api.GET("/v1/books/:id", bookHandler.ReadBookById())
+	api.DELETE("/v1/delete/book/:id", bookHandler.DeleteBookById())
 
 	err = r.Run(":3000")
 	if err != nil {
